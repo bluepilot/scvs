@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 15.6), see www.w3.org">
+  <meta http-equiv="CONTENT-TYPE" content=
+  "text/html; charset=us-ascii">
+
+  <title>Secure Coding Validation Suite User's Guide</title>
+  <meta name="GENERATOR" content="LibreOffice 3.5 (Linux)">
+  <meta name="AUTHOR" content="John Benito">
+  <meta name="CREATED" content="20121008;2054500">
+  <meta name="CHANGEDBY" content="John Benito">
+  <meta name="CHANGED" content="20121008;9074500">
+  <style type="text/css">
+      p.head {font-family:"palatino",palatino, sans-serif;font-size:20pt;}
+      p.body {font-family:"",palatino, sans-serif;font-size:12pt;}
+      p.example {font-family:"courier new",courier, monospace; padding-left: 40pt;}
+      p.indent {padding-left: 20pt; padding-right: 30pt;}
+      p.doubleindent {padding-left: 40pt; padding-right: 30pt;}
+      ol, ul, dl {padding-left: 60px;}
+      code {font-family:"",courier new, sans-serif; monospace; }
+      h3 {font-family:"", palatino, sans-serif; font-sizw:16pt;}
+
+</style>
+</head>
+
+<body lang="en-US" dir="ltr">
+  <p class="head" align="center">Secure Coding Validation
+  Suite User's Guide</p>
+
+<h3>1. Overview </h3>
+
+<p class="indent">This valiadition suite consists of a set of tests modeled after the examples in ISO 
+Technical Specification 17961.  There are tools to use these tests with an analizer, interpreter, or compiler, the 
+<a href="#driver">test_driver.sh</a> script and a 
+utility that will decipher and display the results.  The utility used to decipher and deiplay the
+results is the <a href="#reporter">reporter</a> and is invoked by the <code>test_driver.sh</code> script.  
+There are also several support scripts used to 
+generate the <code>testlist.h</code> file, this file is explained in the <a href="#reporter">reporter</a>
+section.  There are <code>Makefiles</code> to install, uninstall, and use the tests.  Each rule directory
+has a <code>Makefile</code> that will make individual tests, or all of the tests, and remove the files
+from building the test(s).</p>
+
+  <h3>2. Installing</h3>
+<p class="indent">
+
+  <ol><li> make directory to hold validation suite
+  <blockquote>
+  <code>mkdir scvs</code>
+  </blockquote>
+  </li>
+  <li> change the working directory to the directory that will hold the validation suite
+  <blockquote>
+  <code>cd scvs</code>
+  </blockquote>
+  </li>
+    <li> unzip
+    archive file
+    <blockquote>
+    <code>gunzip scvs.tar.gz</code>
+    </blockquote>
+</li>
+    <li> extract files from tar ball</li>
+<blockquote>
+  <code>tar -x scvs.tar</code>
+</blockquote>
+<li> installing the Suite
+<blockquote>
+<code>prompt: make install</code>
+</li></ol>
+</blockquote>
+</p>
+  <h3>3. Suite
+  Layout</h3>
+  <p class="indent">
+    <table summary="suite layout" cellspacing="10">
+    <tr><td valign="top"><code>home</td><td> the top directory, holds the <code>Makefile</code>, <code>index.htm</code>, 
+    and the <code>README</code> plus directories explained below</td></tr>
+    <tr><td valign="top"><code>doc</code></td><td> holds the User's Guide, license, and other documents</td></tr>
+    <tr><td valign="top"><code>tools</code></td><td> holds the source to the <code>reporter</code>, 
+    some sample command scripts, and utilities needed to
+    run the suite, some of these are moved in the tests
+    directory during the <code>make install</code> process.</td></tr>
+    <tr><td valign="top"><code>tests</code></td><td>holds the 45 rules directories
+    that house the test files, the <code>rule_list</code> file, and after the <code>make install</code>
+    process holds the support utilities needed to do a test run</td></tr>
+
+    <tr><td align="top"><code>include</code></td><td>holds the include files for
+    the test suite and tools</td></tr>
+    </table>
+  </p>
+  <h3>4. Configuration</h3>
+      <p class="indent">Making a command
+      file to execute the analyzer that is to be tested, this file
+      must be executable, and hold all of the commands needed to
+      execute the tool(s) being used and to clean up after or before the tool is executed. For example, 
+      the <code>cov_cmds</code> script that is part of the suite is</p>
+  <p class="example"># sample command script for Coverity<br>
+  #<br>
+  if [ -d $1_analyze ]<br>
+  then<br>
+  rm -rf $1_analyze<br>
+  fi<br>
+  #<br>
+  # step one<br>
+  cov-build --dir $1_analyze make -i<br>
+  # step two<br>
+  cov-analyze --security --concurrency --enable-constraint-fpp --dir $1_analyze<br>
+  # step three - information in .out file<br>
+  cov-format-errors --dir $1_analyze --emacs-style --functionsort
+  &gt; $1.out 2&gt;&amp;1
+  </p>
+<p class="indent">and the <code>fw_cmds</code> script that is also included with the suite is</p>
+<p class="example"># sample command script for the Klocwork<br>
+#<br>
+if [ -e kwinject.out ]<br>
+then<br>
+  rm -f kwinject.out<br>
+fi<br>
+# step one<br>
+kwinject make -i<br>
+# step two<br>
+kwcheck run -b kwinject.out<br>
+# step three<br>
+kwcheck list &gt; $1.out 2&gt;&amp;1<br>
+</p>
+<p class="indent"> It is
+    important to note here, that the results of the analyzer/tool
+    set is the name of the rule passed in as argument 1
+    (<code>$1</code>) with an extension
+    of <code>.out</code>, this is used by
+    the <code>reporter</code> to generate the
+    results for the test run. The first part of this script is to
+    clean out any left over data from an earlier test run, and is
+    unique to this tool set. Also important is that the<code> Makefile</code> for the rule being
+    tested is use, <code>make -i</code> is the command that is using the
+    <code>Makefile</code>. Each rule
+    (directory) has a <code>Makefile</code>, see suite layout. All command scripts should use
+    the <code>Makefile</code> if at all possible. If
+    the <code>Makefile</code> can not be used, note
+    the dependencies in the <code>Makefile</code>. These dependencies
+    are important and if not adhered to, the results will not be
+    valid.</p>
+
+<h3>5. <a id="driver">Using the <code>test_driver.sh</code> script</a></h3>
+
+<p class="indent">The script <code>test_driver.sh</code> is used to drive the validation suite.  This script write
+the confutration used in the test run to the <code>configuration.txt</code> file.  
+This <code>configuration.txt</code>
+file is used by the <a href="#reporter">reporter</a>.  This test_driver.sh script takes 
+several command line options.  The options are:</p>
+<dl>
+<dt><code>-l=FILE, --list=FILE</code></dt><dd>	List of directories to test, default is rule_list, 
+                        the <code>rule_list</code> file contains all the current test 
+                        directories.  Each directory corresponds with a single
+                        rule in TS 17961, the rules are also in the same order
+                        as they are defined in TS 17961.</dd>
+ <dt><code>-s=DIR, --single=DIR</code></dt><dd>	The directory associated with the single rule to test.</dd>
+ <dt><code>-c=FILE, --cmd=FILE</code></dt><dd>	The script that holds the commands for the 
+                        implementation being tested. Default is default_cmd.  
+                        There are several shipped with the test suite that can
+                        be used as examples.  See the <code>README</code> file in the top
+                        directory, or the User's Guide in the <code>doc</code> directory.</dd>
+ <dt><code>-o=FILE, --output=FILE</code></dt><dd>	Put all output to FILE.</dd>
+<dt><code>-?, -h, --help</code></dt><dd>	Print a short usage message then exit.</dd>
+<dt><code>-V, --version</code></dt><dd>	Print version information then exit.</dd>
+ <dt><code>-v, --verbose</code></dt><dd>        Print detailed report of the test run results.</dd>
+<dt><code>-d, --debug</code></dt><dd>		Print detailed report, showing all diagnostics found by
+                        line number, also sets the verbose flag.</dd>
+</dl>
+
+<p class="indent"> A single rule test run might look like:
+<blockquote>
+<pre>./test_driver.sh -s=usrfmt -c=cov_cmds 
+setting single to usrfmt
+setting cmd to cov_cmds
+testing single rule: usrfmt
+
+Date: Thu Oct 18 17:11:09 PDT 2012
+Tester: benito
+Test home directory: /home/benito/Work/scvs/tests
+Test script: cov_cmds
+Test Suite Version: 0.0B
+Single rule tested: usrfmt
+
+Totals:
+	rules passed: 000
+	rules failed: 001
+
+	tests passed: 003
+	tests failed: 001
+
+	tests passed with extra messages: 1
+	tests passed with no diagnostic needed and no diagnostic: 2
+	tests passed with no diagnostic needed with a diagnostic: 1
+
+	extra diagnostics: 15
+
+Rules tested:  001
+Test Files:    004
+</pre>
+</blockquote>
+<p class="indent">The same test run with the -v or --verbose flag might give the following:</p>
+<blockquote><pre>
+./test_driver.sh -s=usrfmt -c=cov_cmds -v
+setting single to usrfmt
+setting cmd to cov_cmds
+testing single rule: usrfmt
+	usrfmt_e01.c PASSED, with 5 extra diagnostics.
+	usrfmt_e02.c PASSED no diagnostic require, got 10 diagnostics.
+	usrfmt_e03.c FAILED.
+	usrfmt_e04.c PASSED no diagnostic require.
+Rule: usrfmt ***  FAILED ***
+
+Date: Thu Oct 18 17:11:51 PDT 2012
+Tester: benito
+Test home directory: /home/benito/Work/scvs/tests
+Test script: cov_cmds
+Test Suite Version: 0.0B
+Single rule tested: usrfmt
+
+Totals:
+	rules passed: 000
+	rules failed: 001
+
+	tests passed: 003
+	tests failed: 001
+
+	tests passed with extra messages: 1
+	tests passed with no diagnostic needed and no diagnostic: 2
+	tests passed with no diagnostic needed with a diagnostic: 1
+
+	extra diagnostics: 15
+
+Rules tested:  001
+Test Files:    004
+</pre>
+</blockquote>
+<p class=indent>And, the same run with the -d or --debug flag would be:</p>
+<blockquote>
+<pre>
+./test_driver.sh -s=usrfmt -c=cov_cmds -d
+setting single to usrfmt
+setting cmd to cov_cmds
+testing single rule: usrfmt
+Rule usrfmt, test file usrfmt_e01.c debug information:
+	Diagnostic not expected for usrfmt_e01.c at line 78 - 87
+	Diagnostic not expected for usrfmt_e01.c at line 80 - 87
+	Diagnostic not expected for usrfmt_e01.c at line 82 - 87
+	Diagnostic not expected for usrfmt_e01.c at line 82 - 87
+	Diagnostic not expected for usrfmt_e01.c at line 84 - 87
+	Diagnostic found for usrfmt_e01.c at line 87
+Rule usrfmt, test file usrfmt_e02.c debug information:
+	Diagnostic not expected for usrfmt_e02.c at line 80 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 82 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 84 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 84 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 87 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 88 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 88 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 88 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 93 - 0
+	Diagnostic not expected for usrfmt_e02.c at line 96 - 0
+Rule usrfmt, test file usrfmt_e03.c debug information:
+Rule usrfmt, test file usrfmt_e04.c debug information:
+	usrfmt_e01.c PASSED, with 5 extra diagnostics.
+	usrfmt_e02.c PASSED no diagnostic require, got 10 diagnostics.
+	usrfmt_e03.c FAILED.
+	usrfmt_e04.c PASSED no diagnostic require.
+Rule: usrfmt ***  FAILED ***
+
+Date: Thu Oct 18 17:16:52 PDT 2012
+Tester: benito
+Test home directory: /home/benito/Work/scvs/tests
+Test script: cov_cmds
+Test Suite Version: 0.0B
+Single rule tested: usrfmt
+
+Totals:
+	rules passed: 000
+	rules failed: 001
+
+	tests passed: 003
+	tests failed: 001
+
+	tests passed with extra messages: 1
+	tests passed with no diagnostic needed and no diagnostic: 2
+	tests passed with no diagnostic needed with a diagnostic: 1
+
+	extra diagnostics: 15
+
+Rules tested:  001
+Test Files:    004
+</pre>
+</blockquote>
+</blockquote>
+<h3>6. <a id="reporter">The <code>reporter</code> utility</a></h3>
+<p class="indent">
+The reporter reads in the <code>configuration.txt</code> file to determine the configuration of the test run,
+if the <code>configuration.txt</code> file is not readable or missing the reporter will issue a diagnostic and
+exit.  A typical <code>configuration.txt</code> file for a single run test the rule <code><b>usrfmt</b></code>
+would be:</p>
+<blockquote>
+<pre># This file is generated by the SCVS test driver
+# This file should not be edited.
+#
+DATE=Thu Oct 01 01:16:52 PDT 2012
+TESTER=benito
+TEST_DIRECTORY=/home/benito/Work/scvs/tests
+TEST_SCRIPT=cov_cmds
+VERSION=0.0B
+SINGLE=usrfmt
+</pre>
+</blockquote>
+<p class="indent">The <code>reporter</code> will:</p>
+<ol>
+<li>read in the contents of this <code>configuration.txt</code> file, setting up the configuration needed to 
+look at the results,</li>
+<li>open the file defined by <code><b>TEST_DIRECTORY/SINGLE</b>/usrfmt.out</code> that will contain the 
+output of the test run.  If more than one rule is tested the file that defined the rules to be tested will
+be used to define the output files to use,</li>
+<li>scan down the text in this file looking for diagnostic message assocated with the test as defined
+in the include file <code>testlist.h</code>,</li>
+<li>keep tract of all diagnostics found by line number by test file, then</li>
+<li>print out the results.</li>
+</ol>
+<p class="indent">The <code>testlist.h</code> file is generated by the <code>make_testlist.sh</code>, and should not
+be edited by hand.  The only time a new <code>testlist.h</code> needes to be regenerated is:</p>
+<ol><li>if a test
+has been edited changing the line number of the required diagnostic,</li>
+<li>if a new test has been added to the suite, or</li>
+<li>if a test has bee removed from the suite.</li>
+</ol>
+<p class="indent">The layout of the
+<code>testlist.h</code> is a C structure that holds the rule name, test file, diagnostic line number for
+the required diagnostic, a boolean flag set if the test file has been processed, an integer to indiacate 
+line number found, and a integer to count the number of diagnostic messages found.</p>
+
+<blockquote><pre>
+static test_information test_list[] = {
+  ...
+  
+  {"usrfmt","usrfmt_e01.c",87,false,0,0},
+  {"usrfmt","usrfmt_e02.c",0,false,0,0},
+  {"usrfmt","usrfmt_e03.c",98,false,0,0},
+  {"usrfmt","usrfmt_e04.c",0,false,0,0}
+  ...
+  
+  {"","",-1,false,0,0},
+};
+</pre>
+</blockquote>
+
+<p class="indent">Note, that a '0' in the diagnostic line number indicates that no diagnostic is required.
+The <code>-1</code> is used to see the end of the list.</p>
+</blockquote>
+<h3>7. Building a new <code>testlist.h</code></h3>
+<p class="indent">While making a new testlist.h is a single command, it should not be done unless:</p>
+<ol>
+<li>a test has been removed,</li>
+<li>a test has been editted so that the code line where the required diagnostic has been changed, or</li>
+<li>a new test(s) have been added to the test suite.</li>
+</ol>
+<p class="indent">To build a new <code>testlist.h</code> file type <code>make testlist</code> in the top directory.  This will build a new <code>testlist.h</code> file in the <code>include</code> directory. A <code>make install</code> or a <code>make reporter</code> has to follow the making of a new <code>testlist.h</code> file for the change to take effect.</p>
+<h3>8. Cleaning and uninstalling</h3>
+<p class="indent">The top <code>Makefile</code> has two tagets for cleaning and uninstalling the validation suite.</p>
+<dl>
+<dt>clean</dt><dd> The clean taget will remove all of the scripts copied, the executable generated, and the
+sample command scripts copied in <code>tests</code> directory by the <code>make install</code> process.  The <code>configuration.txt</code>
+will also be removed.</dd>
+<dt>clobber</dt><dd> The clobber target will do a <code>make clean</code>, plus remove all of the test results,
+the <code><i>[rules]</i>.out</code> files are removed.</dd>
+</dl>
+</blockquote>
+</body>
+</html>
+

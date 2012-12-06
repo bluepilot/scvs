@@ -1,0 +1,13 @@
+# sample command script for Coverity
+#
+if [ -d $1_analyze ]
+then
+ rm -rf $1_analyze
+fi
+#
+# step one
+cov-build --dir $1_analyze make -i
+# step two
+cov-analyze --security --concurrency --enable-constraint-fpp --dir $1_analyze 
+# step three - information in .out file
+cov-format-errors --dir $1_analyze --emacs-style --functionsort > $1.out 2>&1

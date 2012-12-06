@@ -1,0 +1,12 @@
+# sample command script for the Klocwork
+#
+if [ -e kwinject.out ]
+then
+  rm -f kwinject.out
+fi
+# step one
+kwinject make -i
+# step two
+kwcheck run -b kwinject.out 
+# step three
+kwcheck list > $1.out 2>&1

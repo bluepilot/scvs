@@ -17,7 +17,7 @@ reporter: reporter.c
 copy:
 	@cp reporter ../tests
 	@cp test_driver.sh ../tests
-	@cp default_cmd ../tests
+	@cp default_cmds ../tests
 	@cp cov_cmds ../tests
 	@cp gcc_cmds ../tests
 	@cp kw_cmds ../tests

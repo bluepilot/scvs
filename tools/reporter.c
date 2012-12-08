@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
   int i = 0;
   int dirs = 0;
   int match = 0;
+  int finished = 0;
   test_information *d = test_list;
   config *configuration;
   FILE *dir_list = 0; 
@@ -39,11 +40,14 @@ int main(int argc, char **argv) {
         if(get_config_value(M_SINGLE, dir_entry)) {
           sprintf(outfile, "%s/%s.out", dir_entry, dir_entry); 
           dirs++;
-          while((d = find_entry(dir_entry, d)) != NULL) { 
+          while(((d = find_entry(dir_entry, d)) != NULL) && !finished) { 
             check_4_diagnostic(outfile, d); 
             match++;
             d->processed = true;
-            *d++;
+            d++;
+            if(d == NULL) {
+              finished = 1;
+            }
           }
         }
       } else if (get_config_value(M_RULE_LIST, rule_list)) {
@@ -58,12 +62,15 @@ int main(int argc, char **argv) {
               dir_entry[i] = '\0';
               d = test_list;	// set to start of the test information table 
               dirs++;	        // count rules
-              while((d = find_entry(dir_entry, d)) != NULL) { 
+              while(((d = find_entry(dir_entry, d)) != NULL) && !finished) { 
                 match++;
                 sprintf(outfile, "%s/%s.out", dir_entry, dir_entry);
                 check_4_diagnostic(outfile, d); 
                 d->processed = true;
-                *d++;
+                d++;
+                if(d == NULL) {
+                  finished = 1;
+                }
               }
             } else {
               memset(dir_entry, '\0', 25);
@@ -99,23 +106,25 @@ void check_4_diagnostic(char *outfile, test_information *d) {
               && !feof(ofile)) {
         if((c = strstr(big_buffer, d->testfile)) != NULL) {
           while(*c != (char) delimiter && *c != '\0' && *c != '\n') {
-            *c++;
+            c++;
           }
           if(*c == (char) delimiter) {
-            *c++;
-            int i = atoi(c);
-            if(i == d->line) {
-              if(debug) {
-                printf("\tDiagnostic found for %s at line %i\n", 
+            c++;
+            if(c != NULL) {
+              int i = atoi(c);
+              if(i == d->line) {
+                if(debug) {
+                  printf("\tDiagnostic found for %s at line %i\n", 
                       d->testfile, d->line);
-              }
-              d->pf++;
-            } else {
-              if(debug) {
-                printf("\tDiagnostic not expected for %s at line %i - %i\n", 
+                }
+                d->pf++;
+              } else {
+                if(debug) {
+                  printf("\tDiagnostic not expected for %s at line %i - %i\n", 
                       d->testfile, i, d->line);
+                }
+                d->extras++;
               }
-              d->extras++;
             }
           }
         }
@@ -309,15 +318,17 @@ int init_configuration(void) {
                st = strlen(configuration[i].keyword);
                if((strncmp(buffer, configuration[i].keyword, st)) == 0) {
                    if((p = strstr(buffer, "=")) != NULL) {
-                     *p++;
-                     for (j = 0; 
+                     p++;
+                     if(p != NULL) {
+                      for (j = 0; 
                         (*p != '\n' && *p != '\0' && j < MAX_LINE); 
-                        *p++, j++) {
+                        p++, j++) {
                        configuration[i].value[j] = *p;
-                     }
-                     configuration[i].value[j] = '\0';
-                     configuration[i].set = true;
-                     ret++;
+                      }
+                      configuration[i].value[j] = '\0';
+                      configuration[i].set = true;
+                      ret++;
+                    }
                  }
               }
             }
@@ -364,8 +375,9 @@ _Bool get_config_value(int key, char *value) {
 test_information *find_entry(char dir[], test_information *d) {
   test_information *ret = NULL;
   _Bool found = false;
+  _Bool finished = false;
 
-  while(d->line != -1 && found == false) {
+  while(d->line != -1 && found == false && finished == false) {
     if(dir[0] != '\0') {
       if(strncmp(dir, d->dir, strlen(dir)) == 0) {
         if(d->processed != true) {
@@ -374,7 +386,10 @@ test_information *find_entry(char dir[], test_information *d) {
         }
       }
     }
-    *d++;
+    d++;
+    if(d == NULL) {
+      finished = true;
+    }
   }
   return ret;
 }

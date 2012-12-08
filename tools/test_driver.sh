@@ -17,7 +17,7 @@ DATE=2012-09-20
 SINGLE=
 OUTPUT=
 RULE_LIST=rule_list
-CMD=default_cmd
+CMD=default_cmds
 CONFIGFILE=configuration.txt
 OLDCONFIGFILE=configuration.old
 
@@ -221,7 +221,7 @@ then
    echo >> test.log
    let "dir_cnt+=1"
    cd $line
-   $CMD $line > test.log 2>&1
+   $CMD $line >> ../test.log 2>&1
    cd ..
    echo >> test.log
    echo ------- >> test.log
@@ -233,7 +233,7 @@ then
 else
 echo testing single rule: $SINGLE
  cd $SINGLE
- $CMD $SINGLE > test.log 2>&1
+ $CMD $SINGLE >> ../test.log 2>&1
  cd ..
  echo >> test.log
  echo ------- >> test.log

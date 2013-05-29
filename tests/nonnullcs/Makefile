@@ -1,4 +1,4 @@
-#	Rule: nonnullstr		Makefile
+#	Rule: nonnullcs		Makefile
 #
 # Copyright (c) 2012 Carnegie Mellon University.
 # All Rights Reserved.
@@ -48,17 +48,17 @@
 #  TRADEMARK AND COPYRIGHT INFRINGEMENT AND/OR FREEDOM FROM THEFT OF TRADE
 #  SECRETS.”
 # 
-all: nonnullstr_e01 nonnullstr_e02 nonnullstr_e03 
-nonnullstr: all
+all: nonnullcs_e01 nonnullcs_e02 nonnullcs_e03 
+nonnullcs: all
 .PHONY : all
 
-nonnullstr_e01:	nonnullstr_e01.c
+nonnullcs_e01:	nonnullcs_e01.c
 	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
 
-nonnullstr_e02:	nonnullstr_e02.c
+nonnullcs_e02:	nonnullcs_e02.c
 	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
 
-nonnullstr_e03:	nonnullstr_e03.c
+nonnullcs_e03:	nonnullcs_e03.c
 	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
 
 clean:

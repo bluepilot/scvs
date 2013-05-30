@@ -3,7 +3,7 @@
 # Copyright and License information can be found in the file
 # license.txt or license.html
 #
-VERSION= Secure Code Validate Suite, Version 0.0B, October 2012
+VERSION= Secure Code Validate Suite, Version 0.1B, May 2013
 
 all: version install
 

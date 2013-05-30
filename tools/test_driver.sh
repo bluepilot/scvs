@@ -12,8 +12,8 @@ echo >> test.log
 #
 output=0
 single=0
-VERSION=0.0B
-DATE=2012-09-20
+VERSION=0.1B
+DATE=2013-05-30
 SINGLE=
 OUTPUT=
 RULE_LIST=rule_list

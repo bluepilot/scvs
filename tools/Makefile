@@ -3,8 +3,8 @@
 # Copyright and License information can be found in the file
 # license.txt or license.html
 #
-VERSION=Secure Code Validate Suite, Version 0.0B, October 2012
-TFILES=../tests/default_cmd ../tests/cov_cmds ../tests/gcc_cmds ../tests/kw_cmds ../tests/test_driver.sh ../tests/reporter ./reporter
+VERSION=Secure Code Validate Suite, Version 0.1B, May 2013
+TFILES=../tests/default_cmds ../tests/cov_cmds ../tests/gcc_cmds ../tests/kw_cmds ../tests/test_driver.sh ../tests/reporter ./reporter
 
 clean:
 	@rm -f $(TFILES)

@@ -1,0 +1,92 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ accfree_e01.c -o accfree_e01.o
+gcc -std=c99  -I./ -I../../../include/ accfree_e02.c -o accfree_e02.o
+gcc -std=c99  -I./ -I../../../include/ accfree_e03.c -o accfree_e03.o
+3 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 3 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 5 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 3
+Total LoC input to cov-analyze  : 7661
+Functions analyzed              : 5
+Paths analyzed                  : 30
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 4 Total
+                                  1 BAD_FREE
+                                  1 RESOURCE_LEAK
+                                  2 USE_AFTER_FREE
+
+Error: BAD_FREE:
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:71:
+array_free: "f(char *, size_t)" frees array "s".
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:77:3:
+cond_true: Condition "c_str2 == NULL", taking true branch
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:78:5:
+freed_arg: "free(void *)" frees parameter "c_str1".
+Error: RESOURCE_LEAK:
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:76:
+alloc_fn: Storage is returned from allocation function "realloc(void *, size_t)".
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:76:
+var_assign: Assigning: "c_str2" = storage returned from "realloc(c_str1, size)".
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:77:
+cond_false: Condition "c_str2 == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:80:
+if_end: End of if statement
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e03.c:81:
+leaked_storage: Variable "c_str2" going out of scope leaks the storage it points to.
+Error: USE_AFTER_FREE:
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e01.c:65:
+cond_true: Condition "head != NULL", taking true branch
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e01.c:66:
+freed_arg: "free(void *)" frees "head".
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e01.c:67:
+loop: Jumping back to the beginning of the loop
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e01.c:65:
+loop_begin: Jumped back to beginning of loop
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e01.c:65:
+deref_after_free: Dereferencing freed pointer "head".
+Error: USE_AFTER_FREE:
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e02.c:66:
+cond_false: Condition "argc < 2", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e02.c:68:
+if_end: End of if statement
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e02.c:76:
+cond_false: Condition "!buf", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/2/accfree_e02.c:80:
+if_end: End of if statement
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e02.c:82:
+freed_arg: "free(void *)" frees "buf".
+/home/benito/Work/scvs/tests/Clause5/2/accfree_e02.c:84:
+deref_arg: Calling "strncpy(char * restrict, char const * restrict, size_t)" dereferences freed pointer "buf". (The dereference is assumed on the basis of the 'nonnull' parameter attribute.)

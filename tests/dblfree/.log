@@ -1,0 +1,67 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ dblfree_e01.c -o dblfree_e01.o
+gcc -std=c99  -I./ -I../../../include/ dblfree_e02.c -o dblfree_e02.o
+2 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 2 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 4 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 2
+Total LoC input to cov-analyze  : 7664
+Functions analyzed              : 4
+Paths analyzed                  : 41
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 3 Total
+                                  2 SIZEOF_MISMATCH
+                                  1 USE_AFTER_FREE
+
+Error: SIZEOF_MISMATCH:
+/home/benito/Work/scvs/tests/Clause5/25/dblfree_e02.c:72:
+suspicious_sizeof: Passing argument "4U /* sizeof (teststring) */" to function "malloc(size_t)" and then casting the return value to "char *" is suspicious.
+Error: SIZEOF_MISMATCH:
+/home/benito/Work/scvs/tests/Clause5/25/dblfree_e02.c:75:
+suspicious_sizeof: Passing argument "s" of type "char *" and argument "4U /* sizeof (teststring) */" to function "w_realloc(char *, size_t)" is suspicious.
+Error: USE_AFTER_FREE:
+path:/home/benito/Work/scvs/tests/Clause5/25/dblfree_e01.c:79:
+cond_true: Condition "x == NULL", taking true branch
+path:/home/benito/Work/scvs/tests/Clause5/25/dblfree_e01.c:83:
+cond_true: Condition "error_condition == 1", taking true branch
+/home/benito/Work/scvs/tests/Clause5/25/dblfree_e01.c:85:
+freed_arg: "free(void *)" frees "x".
+path:/home/benito/Work/scvs/tests/Clause5/25/dblfree_e01.c:86:
+if_fallthrough: Falling through to end of if statement
+path:/home/benito/Work/scvs/tests/Clause5/25/dblfree_e01.c:88:
+if_end: End of if statement
+/home/benito/Work/scvs/tests/Clause5/25/dblfree_e01.c:90:
+double_free: Calling "free(void *)" frees pointer "x" which has already been freed.

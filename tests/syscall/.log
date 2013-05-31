@@ -1,0 +1,63 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ syscall_e01.c -o syscall_e01.o
+gcc -std=c99  -I./ -I../../../include/ syscall_e02.c -o syscall_e02.o
+2 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 2 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 4 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 2
+Total LoC input to cov-analyze  : 7676
+Functions analyzed              : 4
+Paths analyzed                  : 51
+Time taken by Coverity analysis : 00:00:01
+Defect occurrences found        : 1 TAINTED_STRING
+
+Error: TAINTED_STRING:
+path:/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:72:
+cond_true: Condition "s != NULL", taking true branch
+/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:74:
+tainted_string_argument: "fgets(char * restrict, int, FILE * restrict)" taints variable "s".
+path:/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:74:
+cond_true: Condition "fgets(s, 79, stdin) == s", taking true branch
+/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:75:
+tainted_string: Passing tainted string "s" to a function that cannot accept tainted data.
+/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:95:18:
+vararg_transitive: Call to "snprintf(char * restrict, size_t, char const * restrict, ...)" with tainted argument "input" taints "cmdbuf".
+path:/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:98:3:
+cond_false: Condition "len_wanted >= 512U", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:101:10:
+cond_false: Condition "len_wanted < 0", taking false branch
+/home/benito/Work/scvs/tests/Clause5/9/syscall_e01.c:104:10:
+tainted_string_sink_content_lv_call: Passing tainted string "cmdbuf" to "system(char const *)", which depends on its content.

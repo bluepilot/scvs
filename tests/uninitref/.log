@@ -1,0 +1,69 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ uninitref_e01.c -o uninitref_e01.o
+gcc -std=c99  -I./ -I../../../include/ uninitref_e02.c -o uninitref_e02.o
+gcc -std=c99  -I./ -I../../../include/ uninitref_e03.c -o uninitref_e03.o
+gcc -std=c99  -I./ -I../../../include/ uninitref_e04.c -o uninitref_e04.o
+4 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 4 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 10 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 4
+Total LoC input to cov-analyze  : 7259
+Functions analyzed              : 10
+Paths analyzed                  : 56
+Time taken by Coverity analysis : 00:00:01
+Defect occurrences found        : 3 Total
+                                  1 SECURE_CODING
+                                  2 UNINIT
+
+Error: SECURE_CODING:
+/home/benito/Work/scvs/tests/Clause5/35/uninitref_e02.c:85:
+secure_coding: [VERY RISKY]. Using "sprintf(char * restrict, char const * restrict, ...)" can cause a buffer overflow when done incorrectly.  Because sprintf() assumes an arbitrarily long string, callers must be careful not to overflow the actual space of the destination. Use snprintf() instead, or correct precision specifiers.
+Error: UNINIT:
+/home/benito/Work/scvs/tests/Clause5/35/uninitref_e02.c:82:
+var_decl: Declaring variable "error_log" without initializer.
+/home/benito/Work/scvs/tests/Clause5/35/uninitref_e02.c:85:
+uninit_use_in_call: Using uninitialized value "error_log" when calling "sprintf(char * restrict, char const * restrict, ...)".
+Error: UNINIT:
+/home/benito/Work/scvs/tests/Clause5/35/uninitref_e03.c:72:
+var_decl: Declaring variable "a".
+/home/benito/Work/scvs/tests/Clause5/35/uninitref_e03.c:72:
+alloc_fn: Assigning: "a" = "(int *)malloc(n * 4U)", which is allocated but not initialized.
+path:/home/benito/Work/scvs/tests/Clause5/35/uninitref_e03.c:73:
+cond_true: Condition "a != NULL", taking true branch
+path:/home/benito/Work/scvs/tests/Clause5/35/uninitref_e03.c:74:
+cond_true: Condition "i != n", taking true branch
+/home/benito/Work/scvs/tests/Clause5/35/uninitref_e03.c:75:
+uninit_use: Using uninitialized value "*a".

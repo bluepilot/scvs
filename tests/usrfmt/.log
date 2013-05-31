@@ -1,0 +1,82 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ usrfmt_e01.c -o usrfmt_e01.o
+gcc -std=c99  -I./ -I../../../include/ usrfmt_e02.c -o usrfmt_e02.o
+gcc -std=c99  -I./ -I../../../include/ usrfmt_e03.c ../../../include/scvs_include.h -o usrfmt_e03.o
+gcc -std=c99  -I./ -I../../../include/ usrfmt_e04.c -o usrfmt_e04.o
+5 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 5 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 9 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 4
+Total LoC input to cov-analyze  : 8268
+Functions analyzed              : 9
+Paths analyzed                  : 90
+Time taken by Coverity analysis : 00:00:01
+Defect occurrences found        : 2 TAINTED_STRING
+
+Error: TAINTED_STRING:
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e01.c:78:
+cond_false: Condition "fd == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e01.c:80:
+else_branch: Reached else branch
+/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e01.c:82:
+tainted_string_argument: "fgets(char * restrict, int, FILE * restrict)" taints variable "fmt".
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e01.c:82:
+cond_false: Condition "fgets(fmt, 8192, fd) == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e01.c:84:
+else_branch: Reached else branch
+/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e01.c:87:
+tainted_string: Passing tainted string "fmt" to a parameter that cannot accept a tainted format string.
+Error: TAINTED_STRING:
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:80:
+cond_false: Condition "fd == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:82:
+else_branch: Reached else branch
+/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:84:
+tainted_string_argument: "fgets(char * restrict, int, FILE * restrict)" taints variable "fmt".
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:84:
+cond_false: Condition "fgets(fmt, 8192, fd) == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:87:
+else_branch: Reached else branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:88:
+cond_true: Condition "fmt[0] == '%'", taking true branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:88:
+cond_true: Condition "fmt[1] == 'd'", taking true branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:88:
+cond_true: Condition "fmt[2] == 0", taking true branch
+path:/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:93:
+cond_true: Condition "error_condition == 0", taking true branch
+/home/benito/Work/scvs/tests/Clause5/26/usrfmt_e02.c:96:
+tainted_string: Passing tainted string "fmt" to a parameter that cannot accept a tainted format string.

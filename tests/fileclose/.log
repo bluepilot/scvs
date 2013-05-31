@@ -1,0 +1,70 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ fileclose_e01.c -o fileclose_e01.o
+gcc -std=c99  -I./ -I../../../include/ fileclose_e02.c -o fileclose_e02.o
+2 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 2 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 4 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 2
+Total LoC input to cov-analyze  : 7647
+Functions analyzed              : 4
+Paths analyzed                  : 20
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 2 RESOURCE_LEAK
+
+Error: RESOURCE_LEAK:
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e01.c:76:
+alloc_fn: Storage is returned from allocation function "fopen(char const * restrict, char const * restrict)".
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e01.c:76:
+var_assign: Assigning: "f_ptr" = storage returned from "fopen(filename, "r")".
+path:/home/benito/Work/scvs/tests/Clause5/21/fileclose_e01.c:78:
+cond_false: Condition "f_ptr == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/21/fileclose_e01.c:81:
+else_branch: Reached else branch
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e01.c:84:
+leaked_storage: Variable "f_ptr" going out of scope leaks the storage it points to.
+Error: RESOURCE_LEAK:
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e02.c:78:
+alloc_fn: Storage is returned from allocation function "malloc(size_t)".
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e02.c:78:
+var_assign: Assigning: "text_buffer" = storage returned from "malloc(8192U)".
+path:/home/benito/Work/scvs/tests/Clause5/21/fileclose_e02.c:80:
+cond_false: Condition "text_buffer == NULL", taking false branch
+path:/home/benito/Work/scvs/tests/Clause5/21/fileclose_e02.c:82:
+else_branch: Reached else branch
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e02.c:83:
+noescape: Resource "text_buffer" is not freed or pointed-to in function "memset(void *, int, size_t)".
+/home/benito/Work/scvs/tests/Clause5/21/fileclose_e02.c:85:
+leaked_storage: Variable "text_buffer" going out of scope leaks the storage it points to.

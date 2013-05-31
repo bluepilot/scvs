@@ -1,0 +1,63 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ taintstrcpy_e01.c -o taintstrcpy_e01.o
+1 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 1 translation unit
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 1 function
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 1
+Total LoC input to cov-analyze  : 7621
+Functions analyzed              : 1
+Paths analyzed                  : 6
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 3 Total
+                                  1 SECURE_CODING
+                                  1 STRING_OVERFLOW
+                                  1 STRING_SIZE
+
+Error: SECURE_CODING:
+/home/benito/Work/scvs/tests/Clause5/37/taintstrcpy_e01.c:69:
+secure_coding: [VERY RISKY]. Using "strcpy(char * restrict, char const * restrict)" can cause a buffer overflow when done incorrectly.  If the destination string of a strcpy() is not large enough then anything might happen. Use strncpy() instead.
+Error: STRING_OVERFLOW:
+path:/home/benito/Work/scvs/tests/Clause5/37/taintstrcpy_e01.c:68:
+cond_true: Condition "argc > 1", taking true branch
+/home/benito/Work/scvs/tests/Clause5/37/taintstrcpy_e01.c:69:
+fixed_size_dest: You might overrun the 8192 byte fixed-size string "pgm" by copying "argv[0]" without checking the length.
+Error: STRING_SIZE:
+/home/benito/Work/scvs/tests/Clause5/37/taintstrcpy_e01.c:65:
+string_size_argv: argv contains strings with unknown size.
+path:/home/benito/Work/scvs/tests/Clause5/37/taintstrcpy_e01.c:68:
+cond_true: Condition "argc > 1", taking true branch
+/home/benito/Work/scvs/tests/Clause5/37/taintstrcpy_e01.c:69:
+string_size: Passing string "argv[0]" of unknown size to a function that expects a string of a particular size.

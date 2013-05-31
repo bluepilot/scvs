@@ -1,0 +1,78 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ resident_e01.c -o resident_e01.o
+gcc -std=c99  -I./ -I../../../include/ resident_e02.c -o resident_e02.o
+gcc -std=c99  -I./ -I../../../include/ resident_e03.c -o resident_e03.o
+gcc -std=c99  -I./ -I../../../include/ resident_e04.c -o resident_e04.o
+gcc -std=c99  -I./ -I../../../include/ resident_e05.c -o resident_e05.o
+gcc -std=c99  -I./ -I../../../include/ resident_e06.c -o resident_e06.o
+resident_e06.c: In function ‘print_fast16’:
+resident_e06.c:82:10: error: expected identifier before ‘(’ token
+make: [resident_e06] Error 1 (ignored)
+gcc -std=c99  -I./ -I../../../include/ resident_e07.c -o resident_e07.o
+gcc -std=c99  -I./ -I../../../include/ resident_e08.c resident_e08.h -o resident_e08.o
+gcc -std=c99  -I./ -I../../../include/ resident_e09.c -o resident_e09.o
+10 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 10 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 16 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 11
+Total LoC input to cov-analyze  : 8058
+Functions analyzed              : 16
+Paths analyzed                  : 80
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 4 Total
+                                  1 RW.EXP_IDENTIFIER
+                                  1 RW.ROUTINE_NOT_EMITTED
+                                  1 SECURE_CODING
+                                  1 UNINIT
+
+Error: RW.EXP_IDENTIFIER:
+/home/benito/Work/scvs/tests/Clause5/44/resident_e06.c:82:
+exp_identifier: expected an identifier
+/home/benito/Work/scvs/tests/Clause5/44/resident_e06.c:82:
+caretline:          ^
+Error: RW.ROUTINE_NOT_EMITTED:
+/home/benito/Work/scvs/tests/Clause5/44/resident_e06.c:81:
+routine_not_emitted: function "print_fast16" not emitted, consider modeling it or review parse diagnostics to improve fidelity
+/home/benito/Work/scvs/tests/Clause5/44/resident_e06.c:81:
+caretline:      ^
+Error: SECURE_CODING:
+/home/benito/Work/scvs/tests/Clause5/44/resident_e07.c:82:
+secure_coding: [VERY RISKY]. Using "sprintf(char * restrict, char const * restrict, ...)" can cause a buffer overflow when done incorrectly.  Because sprintf() assumes an arbitrarily long string, callers must be careful not to overflow the actual space of the destination. Use snprintf() instead, or correct precision specifiers.
+Error: UNINIT:
+/home/benito/Work/scvs/tests/Clause5/44/resident_e08.h:63:
+var_decl: Declaring variable "ptr" without initializer.
+/home/benito/Work/scvs/tests/Clause5/44/resident_e08.h:65:
+uninit_use: Using uninitialized value "ptr".

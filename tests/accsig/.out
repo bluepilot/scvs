@@ -1,0 +1,11 @@
+November 28, 2012 7:20:39 AM PST: Running build preparation stage...
+November 28, 2012 7:20:39 AM PST: Build preparation stage completed
+The project is up to date
+1 (Local) /home/benito/Work/scvs/tests/accsig/accsig_e01.c:85 NPD.FUNC.MUST (1:Critical) Analyze
+Pointer 'err_msg' returned from call to function 'malloc' at line 81 may be NULL and will be dereferenced at line 85.
+
+2 (Local) /home/benito/Work/scvs/tests/accsig/accsig_e01.c:85 NPD.CHECK.MUST (1:Critical) Analyze
+Pointer 'err_msg' checked for NULL at line 82 will be dereferenced at line 85.
+
+Summary: 2 Local
+2 Total Issue(s)

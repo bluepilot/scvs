@@ -1,0 +1,58 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ argcomp_e01.c -o argcomp_e01.o
+gcc -std=c99  -I./ -I../../../include/ argcomp_e02a.c argcomp_e02b.c -o argcomp_e02.o
+gcc -std=c99  -I./ -I../../../include/ argcomp_e03a.c argcomp_e03b.c -o argcomp_e03.o
+gcc -std=c99  -I./ -I../../../include/ argcomp_e04a.c argcomp_e04b.c -o argcomp_e04.o
+argcomp_e04b.c: In function ‘ifzero’:
+argcomp_e04b.c:77:3: warning: implicit declaration of function ‘f’ [-Wimplicit-function-declaration]
+7 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 7 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 11 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 7
+Total LoC input to cov-analyze  : 7695
+Functions analyzed              : 11
+Paths analyzed                  : 26
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 2 Total
+                                  1 SECURE_CODING
+                                  1 UNUSED_VALUE
+
+Error: SECURE_CODING:
+/home/benito/Work/scvs/tests/Clause5/7/argcomp_e02a.c:64:
+secure_coding: [VERY RISKY]. Using "strcpy(char * restrict, char const * restrict)" can cause a buffer overflow when done incorrectly.  If the destination string of a strcpy() is not large enough then anything might happen. Use strncpy() instead.
+Error: UNUSED_VALUE:
+/home/benito/Work/scvs/tests/Clause5/7/argcomp_e01.c:70:
+returned_pointer: Pointer "s" returned by "test_f(cc)" is never used.

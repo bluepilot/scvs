@@ -1,0 +1,103 @@
+Coverity Build Capture version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+gcc -std=c99  -I./ -I../../../include/ invptr_e01.c -o invptr_e01.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e02.c -o invptr_e02.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e03.c -o invptr_e03.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e04.c -o invptr_e04.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e05.c -o invptr_e05.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e06.c -o invptr_e06.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e07.c -o invptr_e07.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e08.c -o invptr_e08.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e09.c -o invptr_e09.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e10.c -o invptr_e10.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e11.c -o invptr_e11.o
+gcc -std=c99  -I./ -I../../../include/ invptr_e12.c ../../../include/scvs_include.h -o invptr_e12.o
+13 C/C++ compilation units (100%) are ready for analysis
+The cov-build utility completed successfully.
+Coverity Static Analysis for C/C++ version 6.0.1 on Linux 2.6.32-41-generic i686
+Internal version numbers: 1.5222:3042, 20120412041511UTC, p-berkeley-push-11376.367
+
+[WARNING] This program requires 1536 MiB of free memory to run properly,
+but this machine has only 497 MiB of physical memory.
+It might run slowly due to insufficient memory.
+Looking for translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing links for 13 translation units
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing virtual overrides
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing callgraph
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Topologically sorting 26 functions
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Computing node costs
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run
+|0----------25-----------50----------75---------100|
+****************************************************
+[STATUS] Starting analysis run (types/warnings pass)
+|0----------25-----------50----------75---------100|
+****************************************************
+Analysis summary report:
+------------------------
+Files analyzed                  : 12
+Total LoC input to cov-analyze  : 8421
+Functions analyzed              : 26
+Paths analyzed                  : 193
+Time taken by Coverity analysis : 00:00:00
+Defect occurrences found        : 6 Total
+                                  1 DEADCODE
+                                  2 RESOURCE_LEAK
+                                  3 UNUSED_VALUE
+
+Error: DEADCODE:
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e03.c:73:
+dead_error_condition: On this path, the condition "i < 3U" cannot be true.
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e03.c:71:
+assignment: Assigning: "i" = "4294967295U".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e03.c:71:
+const: After this line, the value of "i" is equal to 4294967295.
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e03.c:74:
+dead_error_begin: Execution cannot reach this statement "ip = fun(i);".
+Error: RESOURCE_LEAK:
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:95:
+alloc_fn: Storage is returned from allocation function "malloc(size_t)".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:95:
+var_assign: Assigning: "s" = storage returned from "malloc(4U)".
+path:/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:96:
+cond_true: Condition "s", taking true branch
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:98:
+noescape: Resource "s" is not freed or pointed-to in function "find(struct S *, int)".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:80:22:
+noescape: "find(struct S *, int)" does not free or save its pointer parameter "s".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:98:
+leaked_storage: Variable "s" going out of scope leaks the storage it points to.
+Error: RESOURCE_LEAK:
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:94:
+alloc_fn: Storage is returned from allocation function "malloc(size_t)".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:94:
+var_assign: Assigning: "s" = storage returned from "malloc(4U)".
+path:/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:95:
+cond_true: Condition "s", taking true branch
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:97:
+noescape: Resource "s" is not freed or pointed-to in function "find(struct S *, int)".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:79:22:
+noescape: "find(struct S *, int)" does not free or save its pointer parameter "s".
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:97:
+leaked_storage: Variable "s" going out of scope leaks the storage it points to.
+Error: UNUSED_VALUE:
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e05.c:74:
+returned_pointer: Pointer "ss" returned by "get_name(s, name)" is never used.
+Error: UNUSED_VALUE:
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e11.c:74:
+returned_pointer: Pointer "first_period" returned by "find_period(lcc)" is never used.
+Error: UNUSED_VALUE:
+/home/benito/Work/scvs/tests/Clause5/24/invptr_e10.c:75:
+returned_pointer: Pointer "first_period" returned by "find_period(lcc)" is never used.

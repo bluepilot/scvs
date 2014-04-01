@@ -1,4 +1,4 @@
-/*	Rule: taintstrcpy	Test File: taintstrcpy_e01.c
+/*	Rule: insufmem		Test File: insufmem_e01.c
  *
  * Copyright (c) 2012 Carnegie Mellon University.
  * All Rights Reserved.
@@ -49,11 +49,11 @@
  *  SECRETS.”
  * 
  *
- * Rule: [taintstrcpy]
- * Description: diagnostic is required because the size of the string 
- *              referenced by argv[0] might be greater than the size of 
- *              the destination array pgm
- * Diagnostic: required on line 76
+ * Rule: [insufmem]
+ * Description: diagnostic is required because the value of n that is used 
+ *              in the malloc() call has been possibly miscalculated
+ *              
+ * Diagnostic: required on line 84
  * Additional Test Files: None
  * Command-line Options: None
  */
@@ -61,19 +61,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <wchar.h>
 
-#define SIZE 256
+wchar_t *getstorage(const wchar_t *w);
 
-int main(void) {
-  int nums[SIZE];
-  char *c_str[SIZE];
-  int *next_num_ptr = nums;
-  int free_bytes;
+int main(int argc, char *argv[]) {
+  const wchar_t *message = L"Hello, World!";
+  wchar_t *w_ptr; 
 
-  /* ... */
-  /* increment next_num_ptr as array fills */
+  w_ptr = getstorage(message);
 
-  free_bytes = c_str - (char **)next_num_ptr;  // diagnostic required
-
-  return EXIT_SUCCESS;
+  if(w_ptr != 0) { 
+    fprintf(stderr, "Could not malloc for message in main\n");
+    return EXIT_FAILURE;
+  } else {
+    return EXIT_SUCCESS;
+  }
 }
+
+wchar_t *getstorage(const wchar_t *w) {
+ const size_t n = sizeof(w) * (wcslen(w) + 1);
+ wchar_t *storage = (wchar_t *)malloc(n);	// diagnostic required
+ return storage;
+} 
+

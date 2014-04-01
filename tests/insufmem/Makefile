@@ -1,4 +1,4 @@
-#	Rule: taintnoproto		Makefile
+#	Rule: insufmem		Makefile
 #
 # Copyright (c) 2012 Carnegie Mellon University.
 # All Rights Reserved.
@@ -48,14 +48,13 @@
 #  TRADEMARK AND COPYRIGHT INFRINGEMENT AND/OR FREEDOM FROM THEFT OF TRADE
 #  SECRETS.”
 # 
-all: taintnoproto_e01 taintnoproto_e02
-taintnoproto: all
+all: insufmem_e01
+insufmem: all
 .PHONY : all
 
-taintnoproto_e01:	taintnoproto_e01.c
-	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
+# these tests should not be compiled to an executable
 
-taintnoproto_e02:	taintnoproto_e02.c
+insufmem_e01:	insufmem_e01.c
 	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
 
 clean:

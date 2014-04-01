@@ -1,5 +1,5 @@
-# Date: 01-October-2012
-# Version: 0.0B
+# Date: 29-May-2013
+# Version: 0.1B
 # list of directories that contain tests
 #
 ptrcomp
@@ -22,6 +22,7 @@ swtchdflt
 fileclose
 liberr
 libptr
+insufmem
 invptr
 dblfree
 usrfmt

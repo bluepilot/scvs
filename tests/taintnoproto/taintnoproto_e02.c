@@ -1,4 +1,4 @@
-/*	Rule: taintstrcpy	Test File: taintstrcpy_e01.c
+/*	Rule: taintnoproto	Test File: taintnoproto_e02.c
  *
  * Copyright (c) 2012 Carnegie Mellon University.
  * All Rights Reserved.
@@ -49,31 +49,30 @@
  *  SECRETS.”
  * 
  *
- * Rule: [taintstrcpy]
- * Description: diagnostic is required because the size of the string 
- *              referenced by argv[0] might be greater than the size of 
- *              the destination array pgm
- * Diagnostic: required on line 76
+ * Rule: [taintnoproto]
+ * Description: diagnostic is not required because the tainted argument is
+ *              passed as an argument of a properly prototyed pointer to  
+ *              a function
+ * Diagnostic: required on line 0
  * Additional Test Files: None
  * Command-line Options: None
  */
 
+#include "../../include/scvs_include.h"
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
-#define SIZE 256
+void callpf2(void);
+void (*pf2)(int);
 
 int main(void) {
-  int nums[SIZE];
-  char *c_str[SIZE];
-  int *next_num_ptr = nums;
-  int free_bytes;
 
-  /* ... */
-  /* increment next_num_ptr as array fills */
-
-  free_bytes = c_str - (char **)next_num_ptr;  // diagnostic required
+  callpf2();
 
   return EXIT_SUCCESS;
+}
+  
+void callpf2(void) {
+  int tv;
+  GET_TAINTED_INTEGER(int, tv);
+  (*pf2)(tv);
 }

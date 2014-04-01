@@ -63,16 +63,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-void f(char *, size_t);
+void test_function(char *, size_t);
 
 int main(void) {
   char s[MAX_LEN];
 
-  f(s, MAX_LEN);
+  test_function(s, MAX_LEN);
   return EXIT_SUCCESS;
 }
 
-void f(char *c_str1, size_t size) {
+void test_function(char *c_str1, size_t size) {
   char *c_str2 = (char *)realloc(c_str1, size);
   if (c_str2 == NULL) {
     free(c_str1); // diagnostic required

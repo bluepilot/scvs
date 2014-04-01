@@ -49,33 +49,37 @@
  *  SECRETS.”
  * 
  *
- * Rule: [xfree]
- * Description: diagnostic is required because the sizeof operator is applied 
- *              to the pointer parameter array
- * Diagnostic: required on line 76
+ * Rule: [taintnoproto]
+ * Description: diagnostic is required because the tainted argument is passed
+ *              as an argument to a call through an unprototyped pointer to a
+ *              function.
+ * Diagnostic: required on line 84
  * Additional Test Files: None
  * Command-line Options: None
  */
 
+#include "../../include/scvs_include.h"
 #include <stdlib.h>
 
-void clear(int []);
+void restricted_sink(int);
+void func(int);
+
+void (*pf)() = restricted_sink;
 
 int main(void) {
-  int i[10];
-
-  clear(i);
+  int tainted_val = 0;
+  
+  func(tainted_val);
 
   return EXIT_SUCCESS;
 }
 
-void clear(int array[]) {
-  size_t st = 0;
-
-  for (st = 0; 
-       st < sizeof(array) / sizeof(array[0]); // diagnostic required
-       ++st) { 
-     array[st] = 0;
-  }
+void restricted_sink(int i) {
+  int array[2];
+  array[i] = 0;
 }
 
+void func(int tv) {
+  GET_TAINTED_INTEGER(int, tv);
+  (*pf)(tv);	// diagnostic required
+}

@@ -1,5 +1,0 @@
-56 (Local) /home/benito/Work/scvs/tests/taintsink/taintsink_e02.c:82 ABV.GENERAL (1:Critical) Analyze
-Array 'table' of size 5 may use index value(s) INT_MIN
-
-Summary: 1 Local
-1 Total Issue(s)

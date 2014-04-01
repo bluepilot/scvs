@@ -1,3 +1,0 @@
-gcc -std=c99  -I./ -I../../../include/ nonnullcs_e01.c -o nonnullcs_e01.o
-gcc -std=c99  -I./ -I../../../include/ nonnullcs_e02.c -o nonnullcs_e02.o
-gcc -std=c99  -I./ -I../../../include/ nonnullcs_e03.c -o nonnullcs_e03.o

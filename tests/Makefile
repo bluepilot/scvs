@@ -64,7 +64,7 @@ endif
 
 vpath = %.h $(INCLUDE)
 
-all: ptrcomp funcaddr padcomp intptrconv alignconv filecpy funcdecl nullref diverr addrescape signconv accfree swtchdflt fileclose liberr libptr invptr dblfree usrfmt inverrno ioileave strmod accsig libmod intoflow chrsgnext restrict xfree uninitref ptrobj taintstrcpy sizeofptr taintnoproto taintformatio xfilepos libuse chreof resident invfmtstr taintsink boolasgn asyncsig argcomp sigcall syscall
+all: ptrcomp funcaddr padcomp intptrconv alignconv filecpy funcdecl nullref diverr addrescape signconv accfree swtchdflt fileclose liberr libptr insufmem invptr dblfree usrfmt inverrno ioileave strmod accsig libmod intoflow chrsgnext restrict xfree uninitref ptrobj taintstrcpy sizeofptr taintnoproto taintformatio xfilepos libuse chreof resident invfmtstr taintsink boolasgn asyncsig argcomp sigcall syscall
 
 .PHONY: all
 
@@ -188,6 +188,12 @@ libptr: always
 	CFLAGS="$(CFLAGS)" \
 	INCLUDE="$(INCLUDE)" all)
 
+insufmem: always
+	(cd ./insufmem; $(MAKE) $(MFLAGS) \
+	CC="$(CC)" \
+	CFLAGS="$(CFLAGS)" \
+	INCLUDE="$(INCLUDE)" all)
+
 invptr: always
 	(cd ./invptr; $(MAKE) $(MFLAGS) \
 	CC="$(CC)" \
@@ -242,7 +248,7 @@ intoflow: always
 	CFLAGS="$(CFLAGS)" \
 	INCLUDE="$(INCLUDE)" all)
 
-nonnullstr: always
+nonnullcs: always
 	(cd ./nonnullstr; $(MAKE) $(MFLAGS) \
 	CC="$(CC)" \
 	CFLAGS="$(CFLAGS)" \
@@ -361,6 +367,7 @@ clobber: clean
 	(cd ./fileclose; $(MAKE) $(MFLAGS) clean)
 	(cd ./liberr; $(MAKE) $(MFLAGS) clean)
 	(cd ./libptr; $(MAKE) $(MFLAGS) clean)
+	(cd ./insufmem; $(MAKE) $(MFLAGS) clean)
 	(cd ./invptr; $(MAKE) $(MFLAGS) clean)
 	(cd ./dblfree; $(MAKE) $(MFLAGS) clean)
 	(cd ./usrfmt; $(MAKE) $(MFLAGS) clean)
@@ -370,7 +377,7 @@ clobber: clean
 	(cd ./strmod; $(MAKE) $(MFLAGS) clean)
 	(cd ./libmod; $(MAKE) $(MFLAGS) clean)
 	(cd ./intoflow; $(MAKE) $(MFLAGS) clean)
-	(cd ./nonnullstr; $(MAKE) $(MFLAGS) clean)
+	(cd ./nonnullcs; $(MAKE) $(MFLAGS) clean)
 	(cd ./chrsgnext; $(MAKE) $(MFLAGS) clean)
 	(cd ./restrict; $(MAKE) $(MFLAGS) clean)
 	(cd ./xfree; $(MAKE) $(MFLAGS) clean)

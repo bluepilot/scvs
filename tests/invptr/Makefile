@@ -48,7 +48,7 @@
 #  TRADEMARK AND COPYRIGHT INFRINGEMENT AND/OR FREEDOM FROM THEFT OF TRADE
 #  SECRETS.”
 # 
-all: invptr_e01 invptr_e02 invptr_e03 invptr_e04 invptr_e05 invptr_e06 invptr_e07 invptr_e08 invptr_e09 invptr_e10 invptr_e11 invptr_e12
+all: invptr_e01 invptr_e02 invptr_e03 invptr_e04 invptr_e05 invptr_e06 invptr_e07 invptr_e08 invptr_e09 invptr_e10 invptr_e11 invptr_e12 invptr_e13
 invptr: all
 .PHONY : all
 
@@ -86,6 +86,9 @@ invptr_e11:	invptr_e11.c
 	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
 
 invptr_e12:	invptr_e12.c ../../include/scvs_include.h
+	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
+
+invptr_e13:	invptr_e13.c ../../include/scvs_include.h
 	$(CC) $(CFLAGS) $(INCLUDE) $^ -o $@.o
 
 clean:
